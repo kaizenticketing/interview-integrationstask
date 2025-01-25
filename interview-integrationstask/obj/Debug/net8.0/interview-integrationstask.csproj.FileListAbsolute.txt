@@ -68,3 +68,11 @@ C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstas
 C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\obj\Debug\net8.0\ref\interview-integrationstask.dll
 C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\bin\Debug\net8.0\Polly.dll
 C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\bin\Debug\net8.0\Polly.Core.dll
+C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\bin\Debug\net8.0\Castle.Core.dll
+C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\bin\Debug\net8.0\FluentAssertions.dll
+C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\bin\Debug\net8.0\Moq.dll
+C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\bin\Debug\net8.0\xunit.abstractions.dll
+C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\bin\Debug\net8.0\xunit.assert.dll
+C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\bin\Debug\net8.0\xunit.core.dll
+C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\bin\Debug\net8.0\xunit.execution.dotnet.dll
+C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\bin\Debug\net8.0\Newtonsoft.Json.dll
