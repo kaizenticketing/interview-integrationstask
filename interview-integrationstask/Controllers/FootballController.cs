@@ -62,6 +62,11 @@ namespace interview_integrationstask.Controllers
             {
                 return StatusCode(StatusCodes.Status429TooManyRequests, ex.Message);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving team {TeamName}", name);
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving team information");
+            }
         }
 
         /// <summary>

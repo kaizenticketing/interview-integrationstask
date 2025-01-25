@@ -62,44 +62,44 @@ namespace interview_integrationstask.Services
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<dynamic>> GetTeamsAsync()
+        public async Task<ApiPaginatedResponse<IEnumerable<Team>>> GetTeamsAsync()
         {
             _logger.LogInformation("Retrieving all teams");
-            return await SendRequestAsync<IEnumerable<dynamic>>("teams");
+            return await SendRequestAsync<ApiPaginatedResponse<IEnumerable<Team>>>("teams");
         }
 
         /// <inheritdoc />
-        public async Task<dynamic> GetTeamsByNameAsync(string name)
+        public async Task<Team> GetTeamsByNameAsync(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Team cannot be empty", nameof(name));
 
             _logger.LogInformation("Retrieving team information for {TeamName}", name);
-            return await SendRequestAsync<dynamic>($"teams/{Uri.EscapeDataString(name)}");
+            return await SendRequestAsync<Team>($"teams/{Uri.EscapeDataString(name)}");
         }
 
         // <inheritdoc />
-        public async Task<dynamic> GetLeagueByNameAsync(string name)
+        public async Task<Competition> GetLeagueByNameAsync(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Leage name cannot be empty", nameof(name));
 
             _logger.LogInformation("Retrieving league information for {LeagueName}", name);
-            return await SendRequestAsync<dynamic>($"competitions/{Uri.EscapeDataString(name)}");
+            return await SendRequestAsync<Competition>($"competitions/{Uri.EscapeDataString(name)}");
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<dynamic>> GetFixturesAsync()
+        public async Task<ApiPaginatedResponse<IEnumerable<Match>>> GetFixturesAsync()
         {
             _logger.LogInformation("Retrieving upcoming fixtures");
-            return await SendRequestAsync<IEnumerable<dynamic>>("matches?status=SCHEDULED");
+            return await SendRequestAsync<ApiPaginatedResponse<IEnumerable<Match>>>("matches?status=SCHEDULED");
         } 
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<dynamic>> GetScoresAsync()
+        public async Task<ApiPaginatedResponse<IEnumerable<Match>>> GetScoresAsync()
         {
             _logger.LogInformation("Retrieving latest scores");
-            return await SendRequestAsync<IEnumerable<dynamic>>("matches?status=FINISHED");
+            return await SendRequestAsync<ApiPaginatedResponse<IEnumerable<Match>>>("matches?status=FINISHED");
         }
     }
 
