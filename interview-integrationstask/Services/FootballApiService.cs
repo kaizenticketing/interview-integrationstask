@@ -69,13 +69,11 @@ namespace interview_integrationstask.Services
         }
 
         /// <inheritdoc />
-        public async Task<Team> GetTeamsByNameAsync(string name)
+        public async Task<Team> GetTeamsByIdAsync(int id)
         {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Team cannot be empty", nameof(name));
 
-            _logger.LogInformation("Retrieving team information for {TeamName}", name);
-            return await SendRequestAsync<Team>($"teams/{Uri.EscapeDataString(name)}");
+            _logger.LogInformation("Retrieving team information for {id}", id);
+            return await SendRequestAsync<Team>($"teams/{id}");
         }
 
         // <inheritdoc />
@@ -96,10 +94,12 @@ namespace interview_integrationstask.Services
         } 
 
         /// <inheritdoc/>
-        public async Task<ApiPaginatedResponse<IEnumerable<Match>>> GetScoresAsync()
+        public async Task<ApiPaginatedResponse<IEnumerable<Match>>> GetScoresAsync(int teamId, string dateFrom, string dateTo)
         {
-            _logger.LogInformation("Retrieving latest scores");
-            return await SendRequestAsync<ApiPaginatedResponse<IEnumerable<Match>>>("matches?status=FINISHED");
+            _logger.LogInformation($"Retrieving latest scores for teamId: {teamId}, dateFrom: {dateFrom}, dateTo: {dateTo}");
+            // Construct the endpoint with query parameters
+            var endpoint = $"/teams/{teamId}/matches?status=FINISHED&dateFrom={dateFrom}&dateTo={dateTo}";
+            return await SendRequestAsync<ApiPaginatedResponse<IEnumerable<Match>>>(endpoint);
         }
     }
 

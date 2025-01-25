@@ -19,7 +19,7 @@ namespace interview_integrationstask.Services
         /// </summary>
         /// <param name="name">Name of the team to retrieve</param>
         /// /// <returns>Detailed team information</returns>
-        Task<Team> GetTeamsByNameAsync(string name);
+        Task<Team> GetTeamsByIdAsync(int Id);
 
         /// <summary>
         /// Retrieves information about a specific league 
@@ -37,7 +37,10 @@ namespace interview_integrationstask.Services
         /// <summary>
         /// Retrieves latest scores 
         /// </summary>
+        /// <param name="teamId">The ID of the team.</param>
+        /// <param name="dateFrom">Start date in yyyy-MM-dd format.</param>
+        /// <param name="dateTo">End date in yyyy-MM-dd format.</param>
         /// <returns>Collection of latest match scores</returns>
-        Task<ApiPaginatedResponse<IEnumerable<Match>>> GetScoresAsync();
+        Task<ApiPaginatedResponse<IEnumerable<Match>>> GetScoresAsync(int teamId, string dateFrom, string dateTo);
     }
 }

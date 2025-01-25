@@ -11,7 +11,7 @@ namespace interview_integrationstask.Models
         public int Count { get; init; }
 
         [JsonPropertyName("filters")]
-        public Dictionary<string, string>? FIlters { get; init; }
+        public Dictionary<string, object>? Filters { get; init; }
 
         [JsonPropertyName("resultSet")]
         public T ResultSet { get; init; } = default!; 
