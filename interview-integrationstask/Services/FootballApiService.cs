@@ -94,12 +94,12 @@ namespace interview_integrationstask.Services
         } 
 
         /// <inheritdoc/>
-        public async Task<ApiPaginatedResponse<IEnumerable<Match>>> GetScoresAsync(int teamId, string dateFrom, string dateTo)
+        public async Task<MatchesApiResponse> GetScoresAsync(int teamId, string dateFrom, string dateTo)
         {
             _logger.LogInformation($"Retrieving latest scores for teamId: {teamId}, dateFrom: {dateFrom}, dateTo: {dateTo}");
             // Construct the endpoint with query parameters
             var endpoint = $"/teams/{teamId}/matches?status=FINISHED&dateFrom={dateFrom}&dateTo={dateTo}";
-            return await SendRequestAsync<ApiPaginatedResponse<IEnumerable<Match>>>(endpoint);
+            return await SendRequestAsync<MatchesApiResponse>(endpoint);
         }
     }
 

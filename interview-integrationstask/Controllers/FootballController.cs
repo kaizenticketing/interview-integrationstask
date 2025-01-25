@@ -69,38 +69,6 @@ namespace interview_integrationstask.Controllers
             }
         }
 
-        /// <summary>
-        ///  Retrieves information about a specific league by name
-        /// </summary>
-        /// <param name="name">The name of the league to retrieve</param>
-        [HttpGet("league/{name}")]
-        public async Task<IActionResult> GetLeagueByName([FromRoute] string name)
-        {
-            try 
-            {
-                var league = await _footballApiService.GetLeagueByNameAsync(name);
-                return Ok(league);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound($"League '{name}' not found");
-            }
-            catch (RateLimitRejectedException ex)
-            {
-                return StatusCode(StatusCodes.Status429TooManyRequests, ex.Message);
-            }
-        }
-
-        /// <summary>
-        ///  Retries upcoming fixtures
-        /// </summary>
-
-        [HttpGet("fixtures")]
-        public async Task<IActionResult> GetFixtures()
-        {
-            var fixtures = await _footballApiService.GetFixturesAsync();
-            return Ok(fixtures);
-        }
 
         [HttpGet("scores")]
         public async Task<IActionResult> GetScores([FromQuery] int? teamId = null, [FromQuery] string? dateFrom = null, [FromQuery] string? dateTo = null)

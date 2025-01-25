@@ -41,6 +41,6 @@ namespace interview_integrationstask.Services
         /// <param name="dateFrom">Start date in yyyy-MM-dd format.</param>
         /// <param name="dateTo">End date in yyyy-MM-dd format.</param>
         /// <returns>Collection of latest match scores</returns>
-        Task<ApiPaginatedResponse<IEnumerable<Match>>> GetScoresAsync(int teamId, string dateFrom, string dateTo);
+        Task<MatchesApiResponse> GetScoresAsync(int teamId, string dateFrom, string dateTo);
     }
 }
