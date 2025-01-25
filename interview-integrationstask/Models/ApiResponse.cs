@@ -65,7 +65,7 @@ namespace interview_integrationstask.Models
         public string? EmblemUrl { get; init; }
 
         [JsonPropertyName("currentSeason")]
-        public Season CurrentSeason { get; init; }
+        public Season? CurrentSeason { get; init; }
     }
 
     /// <summary>

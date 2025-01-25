@@ -27,14 +27,7 @@ namespace interview_integrationstask.Services
             _logger = logger; 
 
             // COnfigure rate limiting policy (10 requests per minute)
-            _rateLimitPolicy = Policy.RateLimitAsync<HttpResponseMessage>(
-                numberOfExecutions: 10, 
-                perTimeSpan: TimeSpan.FromMinutes(1),
-                onRejected: (_, _) => 
-                {
-                    _logger.LogWarning("Rate limit exceed for football API");
-                    throw new RateLimitRejectedException("API rate limit exceeded. Please try again later.");
-                });
+            _rateLimitPolicy = Policy.RateLimitAsync<HttpResponseMessage>(10, TimeSpan.FromMinutes(1));
         }
 
         private async Task<T> SendRequestAsync<T>(string endpoint)
@@ -61,9 +54,9 @@ namespace interview_integrationstask.Services
                     _ => new HttpRequestException($"API request failed with status code {response.StatusCode}")
                 };
             }
-            catch (Exception ex) when (ex is not RateLimitRejectedException)
+            catch (RateLimitRejectedException)
             {
-                _logger.LogError(ex, "Error calling football API endpoint {Endpoint}", endpoint);
+                _logger.LogWarning("Rate limit exceeded for football API");
                 throw;
             }
         }

@@ -73,7 +73,7 @@ namespace interview_integrationstask.Controllers
         {
             try 
             {
-                var league = await _footballApiService.GetLeageByNameAsync(name);
+                var league = await _footballApiService.GetLeagueByNameAsync(name);
                 return Ok(league);
             }
             catch (KeyNotFoundException)

@@ -66,3 +66,5 @@ C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstas
 C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\obj\Debug\net8.0\interview-integrationstask.pdb
 C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\obj\Debug\net8.0\interview-integrationstask.genruntimeconfig.cache
 C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\obj\Debug\net8.0\ref\interview-integrationstask.dll
+C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\bin\Debug\net8.0\Polly.dll
+C:\Users\kians\Kai9zen-Test\interview-integrationstask\interview-integrationstask\bin\Debug\net8.0\Polly.Core.dll

@@ -21,11 +21,11 @@ namespace interview_integrationstask.Services
         Task<dynamic> GetTeamsByNameAsync(string name);
 
         /// <summary>
-        /// Retrieves information about a specific leage 
+        /// Retrieves information about a specific league 
         /// </summary>
         /// <param name="name">Name of the league to retrieve</param>
         /// <returns>League information</returns>
-        Task<dynamic> GetLeageByNameAsync(string name);
+        Task<dynamic> GetLeagueByNameAsync(string name);
 
         /// <summary>
         /// Retrieves upcoming fixtures 
