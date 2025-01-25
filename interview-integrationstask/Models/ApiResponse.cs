@@ -1,11 +1,12 @@
 using System.Text.Json.Serialization; 
+using interview_integrationstask.Interfaces;
 
 namespace interview_integrationstask.Models 
 {
     /// <summary>
     /// Base class for paginated API responses 
     /// </summary>
-    public record ApiPaginatedResponse<T>
+    public record ApiPaginatedResponse<T>: IApiPaginedResponse<T>
     {
         [JsonPropertyName("count")]
         public int Count { get; init; }
@@ -20,7 +21,7 @@ namespace interview_integrationstask.Models
     /// <summary>
     /// Represents a football team 
     /// </summary>
-    public record Team 
+    public record Team : ITeam
     {
         [JsonPropertyName("id")]
         public int Id { get; init; }
@@ -44,13 +45,13 @@ namespace interview_integrationstask.Models
         public string? Venue { get; init; }
 
         [JsonPropertyName("runningCompetitions")]
-        public IEnumerable<Competition> RunningCompetitions { get; init; } = new List<Competition>();
+        public IEnumerable<ICompetition> RunningCompetitions { get; init; } = new List<Competition>();
     }
 
     /// <summary>
     /// Represents a football competition/league 
     /// </summary>
-    public record Competition 
+    public record Competition: ICompetition
     {
         [JsonPropertyName("id")]
         public int Id { get; init; }
@@ -89,19 +90,19 @@ namespace interview_integrationstask.Models
     /// <summary>
     /// Represents a football match/fixture 
     /// </summary>
-    public record Match 
+    public record Match: IMatch
     {
         [JsonPropertyName("id")]
         public int Id { get; init; }
 
         [JsonPropertyName("competition")]
-        public Competition Competition { get; init; } = default!;
+        public ICompetition Competition { get; init; } = new Competition();
 
         [JsonPropertyName("homeTeam")]
-        public Team HomeTeam { get; init; } = default!;
+        public ITeam HomeTeam { get; init; } = new Team();
 
         [JsonPropertyName("awayTeam")]
-        public Team AwayTeam { get; init; } = default!;
+        public ITeam AwayTeam { get; init; } = new Team();
 
         [JsonPropertyName("utcDate")]
         public DateTime UtcDate { get; init; }
@@ -110,7 +111,7 @@ namespace interview_integrationstask.Models
         public string Status { get; init; } = string.Empty; 
 
         [JsonPropertyName("score")]
-        public Score Score { get; init; } = default!; 
+        public IScore Score { get; init; } = new Score(); 
     }
 
     /// <summary>
@@ -161,7 +162,7 @@ namespace interview_integrationstask.Models
     /// <summary>
     /// Represents the score details of a football match. 
     /// </summary>
-    public record Score 
+    public record Score : IScore
     {
         [JsonPropertyName("winner")]
         public string Winner { get; init; } = string.Empty; 
