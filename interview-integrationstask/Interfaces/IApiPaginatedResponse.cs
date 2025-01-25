@@ -6,9 +6,7 @@ namespace interview_integrationstask.Interfaces
     public interface IApiPaginedResponse<T> 
     {
         int Count { get; }
-
         Dictionary<string, object>? Filters { get; }
-
         T ResultSet { get; }
     }
 }
