@@ -18,31 +18,6 @@ namespace interview_integrationstask.Controllers
         } 
 
         /// <summary>
-        /// Retrieves all available football teams
-        /// </summary>
-        /// <response code="200">Returns the list of teams</response>
-        /// <response code="429">Rate limit exceeded</response>
-        /// <response code="500">Internal server error</response>
-        [HttpGet("teams")]
-        public async Task<IActionResult> GetTeams()
-        {
-            try 
-            {
-                var teams = await _footballApiService.GetTeamsAsync();
-                return Ok(teams);
-            }
-            catch (RateLimitRejectedException ex)
-            {
-                return StatusCode(StatusCodes.Status429TooManyRequests, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving teams");
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving teams");
-            }
-        }
-
-        /// <summary>
         ///  Retrieves information about a specific team by Id
         /// </summary>
         /// <param id="id">The id of the team to retrieve</param>

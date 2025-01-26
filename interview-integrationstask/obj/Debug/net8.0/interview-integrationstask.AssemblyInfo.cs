@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("interview-integrationstask")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e0e6d5b957ed5f63e37be8384086a4cac778dc3b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8838308dfdddea34c390dee09a4a507cdaa77f37")]
 [assembly: System.Reflection.AssemblyProductAttribute("interview-integrationstask")]
 [assembly: System.Reflection.AssemblyTitleAttribute("interview-integrationstask")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

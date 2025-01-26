@@ -62,36 +62,12 @@ namespace interview_integrationstask.Services
         }
 
         /// <inheritdoc />
-        public async Task<ApiPaginatedResponse<IEnumerable<Team>>> GetTeamsAsync()
-        {
-            _logger.LogInformation("Retrieving all teams");
-            return await SendRequestAsync<ApiPaginatedResponse<IEnumerable<Team>>>("teams");
-        }
-
-        /// <inheritdoc />
         public async Task<Team> GetTeamsByIdAsync(int id)
         {
 
             _logger.LogInformation("Retrieving team information for {id}", id);
             return await SendRequestAsync<Team>($"teams/{id}");
         }
-
-        // <inheritdoc />
-        public async Task<Competition> GetLeagueByNameAsync(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Leage name cannot be empty", nameof(name));
-
-            _logger.LogInformation("Retrieving league information for {LeagueName}", name);
-            return await SendRequestAsync<Competition>($"competitions/{Uri.EscapeDataString(name)}");
-        }
-
-        /// <inheritdoc/>
-        public async Task<ApiPaginatedResponse<IEnumerable<Match>>> GetFixturesAsync()
-        {
-            _logger.LogInformation("Retrieving upcoming fixtures");
-            return await SendRequestAsync<ApiPaginatedResponse<IEnumerable<Match>>>("matches?status=SCHEDULED");
-        } 
 
         /// <inheritdoc/>
         public async Task<MatchesApiResponse> GetScoresAsync(int teamId, string dateFrom, string dateTo)
