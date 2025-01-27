@@ -30,6 +30,6 @@ namespace interview_integrationstask.Services
         /// </summary>
         /// <param name="competitionCode">The competition code (e.g., "PL" for Premier League).</param>
         /// <returns>Detailed competition information, including seasons and teams.</returns>
-        Task<Competition?> GetCompetitionAsync(string competitionCode);
+        Task<Competition> GetCompetitionAsync(string competitionCode);
     }
 }
