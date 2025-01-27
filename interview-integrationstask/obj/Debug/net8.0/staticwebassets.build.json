@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "H1d2a4+hcJhVKIiqFanLcjLTDuMKIGFv0M4qgDMLu5c=",
+  "Hash": "2IoCeetoyaTPQv28fc7wqO3CfB/TV082oRHS/ecU6To=",
   "Source": "interview-integrationstask",
   "BasePath": "_content/interview-integrationstask",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }
