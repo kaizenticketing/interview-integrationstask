@@ -159,5 +159,75 @@ namespace interview_integrationstask.Tests.Services
             await Assert.ThrowsAsync<RateLimitRejectedException>(() => 
                 service.GetScoresAsync(1, "2023-01-01", "2023-12-31"));
         }
+
+        [Fact]
+        public async Task GetCompetitionAsync_ReturnsCompetition_WhenApiResponseIsValid()
+        {
+            // Arrange 
+            var handlerMock = new Mock<HttpMessageHandler>();
+            handlerMock
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK, 
+                    Content = new StringContent("{\"id\": 2021, \"name\": \"Premier League\", \"code\": \"PL\"}")
+                });
+            
+            var service = CreateService(handlerMock.Object);
+
+            // Act 
+            var result = await service.GetCompetitionAsync("PL");
+
+            // Assert 
+            Assert.NotNull(result);
+            Assert.Equal(2021, result.Id);
+            Assert.Equal("Premier League", result.Name);
+            Assert.Equal("PL", result.Code);
+        }
+
+        [Fact]
+        public async Task GetCompetitionAsync_ThrowsKeyNotFOundException_WhenApiReturnsNotFound()
+        {
+            // Arrange 
+            var handlerMock = new Mock<HttpMessageHandler>();
+            handlerMock 
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage 
+                {
+                    StatusCode = HttpStatusCode.NotFound
+                });
+            
+            var service = CreateService(handlerMock.Object);
+
+            // Act & Assert 
+            await Assert.ThrowsAsync<KeyNotFoundException>(() => service.GetCompetitionAsync("INVALID_CODE"));
+        }
+
+        [Fact]
+        public async Task GetCompetitionAsync_ThrowsUnauthorizedAccessException_WhenApiReturnsUnauthorized()
+        {
+            // Arrange 
+            var handlerMock = new Mock<HttpMessageHandler>();
+            handlerMock 
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    .ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage 
+                {
+                    StatusCode = HttpStatusCode.Unauthorized
+                });
+            
+            var service = CreateService(handlerMock.Object);
+
+            // Act & Assert 
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => service.GetCompetitionAsync("PL"));
+        }
     }
 }
