@@ -86,6 +86,43 @@ namespace interview_integrationstask.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves information about a specific competition by code 
+        /// </summary>
+        /// <param name="code">The competition code (e.g., "PL" for Premier League)</param>
+        /// <returns>Detailed competition information</returns>
+        [HttpGet("competitions/{code}")]
+        public async Task<IActionResult> GetCompetition([FromRoute] string code)
+        {
+            try 
+            {
+                _logger.LogInformation("Retrieving competition information for {CompetitionCode}", code);
+
+                // Call the service to get competition details 
+                var competition = await _footballApiService.GetCompetitionAsync(code);
+
+                if (competition == null)
+                {
+                    return NotFound($"Competition with code '{code}' not found.");
+                }
+
+                return Ok(competition);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound($"Competition with code '{code}' not found.");
+            }
+            catch (RateLimitRejectedException ex)
+            {
+                return StatusCode(StatusCodes.Status429TooManyRequests, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving competition {CompetitionCode}", code);
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving competition information.");
+            }
+        }
+
     }
 
 }

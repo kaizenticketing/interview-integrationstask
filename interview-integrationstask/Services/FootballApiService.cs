@@ -73,9 +73,17 @@ namespace interview_integrationstask.Services
         public async Task<MatchesApiResponse> GetScoresAsync(int teamId, string dateFrom, string dateTo)
         {
             _logger.LogInformation($"Retrieving latest scores for teamId: {teamId}, dateFrom: {dateFrom}, dateTo: {dateTo}");
-            // Construct the endpoint with query parameters
+       
             var endpoint = $"/teams/{teamId}/matches?status=FINISHED&dateFrom={dateFrom}&dateTo={dateTo}";
             return await SendRequestAsync<MatchesApiResponse>(endpoint);
+        }
+
+        /// <inheritdoc>
+        public async Task<Competition> GetCompetitionAsync(string competitionCode) 
+        {
+            _logger.LogInformation("Retrieving competition details for {competitionCode}", competitionCode);
+
+            return await SendRequestAsync<Competition>($"competitions/{competitionCode}");
         }
     }
 
