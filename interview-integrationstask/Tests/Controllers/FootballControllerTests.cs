@@ -140,5 +140,161 @@ namespace interview_integrationstask.Tests.Controllers
             Assert.Equal(StatusCodes.Status500InternalServerError, internalServerErrorResult.StatusCode);
             Assert.Equal("An error occurred while retrieving scores", internalServerErrorResult.Value);
         }
+
+        [Fact]
+        public async Task GetCompetition_ReturnsOk_WhenCompetitionIsFound()
+        {
+            // Arrange 
+            var competition = new Competition 
+            {
+                Id = 2021, 
+                Name = "Premier League",
+                Code = "PL",
+                Type = "LEAGUE"
+            };
+
+            _footballApiServiceMock 
+                .Setup(s => s.GetCompetitionAsync("PL"))
+                .ReturnsAsync(competition);
+            
+            // Act 
+            var result = await _controller.GetCompetition("PL");
+
+            // Assert 
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(StatusCodes.Status200OK, okResult.StatusCode);
+            Assert.Equal(competition, okResult.Value);
+        }
+
+        [Fact]
+        public async Task GetCompetition_ReturnsNotFound_WhenCompetitionIsNotFound()
+        {
+            // Arrange 
+            _footballApiServiceMock 
+                .Setup(s => s.GetCompetitionAsync("INVALID_CODE"))
+                .ThrowsAsync(new KeyNotFoundException());
+            
+            // Act 
+            var result = await _controller.GetCompetition("INVALID_CODE");
+
+            // Assert 
+            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal(StatusCodes.Status404NotFound, notFoundResult.StatusCode);
+            Assert.Equal("Competition with code 'INVALID_CODE' not found.", notFoundResult.Value);
+        }
+
+        [Fact]
+        public async Task GetCompetition_ReturnsTooManyRequests_WhenRateLimitExceeded()
+        {
+            // Arrange 
+            _footballApiServiceMock 
+                .Setup(s => s.GetCompetitionAsync("PL"))
+                .ThrowsAsync(new RateLimitRejectedException("Rate limit exceeded"));
+            
+            // Act 
+            var result = await _controller.GetCompetition("PL");
+
+            // Assert 
+            var tooManyRequestsResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(StatusCodes.Status429TooManyRequests, tooManyRequestsResult.StatusCode);
+            Assert.Equal("Rate limit exceeded", tooManyRequestsResult.Value);
+        }
+
+        [Fact]
+        public async Task GetCompetition_ReturnsInternalServerError_OnUnexpectedException()
+        {
+            // Arrange 
+            _footballApiServiceMock 
+                .Setup(s => s.GetCompetitionAsync("PL"))
+                .ThrowsAsync(new Exception("Unexpected error"));
+            
+            // Act 
+            var result = await _controller.GetCompetition("PL");
+
+            // Assert 
+            var internalServerErrorResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(StatusCodes.Status500InternalServerError, internalServerErrorResult.StatusCode);
+            Assert.Equal("An error occurred while retrieving competition information.", internalServerErrorResult.Value);
+        }
+
+        [Fact]
+        public async Task GetTopScorers_ReturnsOk_WhenTopScorersAreFound()
+        {
+            // Arrange 
+            var topScorersResponse = new TopScorersApiResponse 
+            {
+                Count = 1, 
+                Scorers = new List<Scorer>
+                {
+                    new Scorer 
+                    {
+                        Player = new Player { Name = "PLayer A"}
+                    }
+                }
+            };
+
+            _footballApiServiceMock 
+                .Setup(s => s.GetTopScorersAsync("PL"))
+                .ReturnsAsync(topScorersResponse);
+            
+            // Act 
+            var result = await _controller.GetTopScorers("PL");
+
+            // Assert 
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(StatusCodes.Status200OK, okResult.StatusCode);
+            Assert.Equal(topScorersResponse, okResult.Value);
+        }
+
+        [Fact]
+        public async Task GetTopScorers_ReturnsNotFound_WhenNoTopScorersAreFound()
+        {
+            // Arrange 
+            _footballApiServiceMock 
+                .Setup(s => s.GetTopScorersAsync("PL"))
+                .ReturnsAsync(new TopScorersApiResponse { Scorers = new List<Scorer>() });
+
+            // Act 
+            var result = await _controller.GetTopScorers("PL");
+
+            // Assert 
+            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal(StatusCodes.Status404NotFound, notFoundResult.StatusCode);
+            Assert.Equal("No top scorers found for competition 'PL'.", notFoundResult.Value);    
+        }
+
+        [Fact]
+        public async Task GetTopScorers_ReturnsTooManyRequests_WhenRateLimitExceeded()
+        {
+            // Arrange 
+            _footballApiServiceMock 
+                .Setup(s => s.GetTopScorersAsync("PL"))
+                .ThrowsAsync(new RateLimitRejectedException("Rate limit exceeded"));
+            
+            // Act 
+            var result = await _controller.GetTopScorers("PL");
+
+            // Assert 
+            var tooManyRequestsResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(StatusCodes.Status429TooManyRequests, tooManyRequestsResult.StatusCode);
+            Assert.Equal("Rate limit exceeded", tooManyRequestsResult.Value);
+        }
+
+        [Fact]
+        public async Task GetTopScorers_ReturnsInternalServerError_OnUnexpectedExcepton()
+        {
+            // Arrange 
+            _footballApiServiceMock 
+                .Setup(s => s.GetTopScorersAsync("PL"))
+                .ThrowsAsync(new Exception("Unexpected error"));
+            
+            // Act 
+            var result = await _controller.GetTopScorers("PL");
+
+            // Assert 
+            var internalServerErrorResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(StatusCodes.Status500InternalServerError, internalServerErrorResult.StatusCode);
+            Assert.Equal("An error occurred while retrieving top scorers.", internalServerErrorResult.Value);
+        }
     }
 }
