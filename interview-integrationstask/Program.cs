@@ -1,3 +1,7 @@
+using interview_integrationstask.Interfaces.Services;
+using interview_integrationstask.Models;
+using interview_integrationstask.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<IFootballService, FootballService>();
+builder.Services.Configure<FootballData>(builder.Configuration.GetSection("FootballData"));
 
 var app = builder.Build();
 
