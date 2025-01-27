@@ -20,7 +20,7 @@ namespace interview_integrationstask.Controllers
         /// <summary>
         ///  Retrieves information about a specific team by Id
         /// </summary>
-        /// <param id="id">The id of the team to retrieve</param>
+        /// <param name="id">The id of the team to retrieve</param>
         [HttpGet("teams/{id}")]
         public async Task<IActionResult> GetTeamById([FromRoute] int id)
         {
@@ -44,7 +44,12 @@ namespace interview_integrationstask.Controllers
             }
         }
 
-
+        /// <summary>
+        ///  Retrieves information about the scores of a specific team by Id
+        /// </summary>
+        /// <param name="id">The id of the team to retrieve</param>
+        /// <param name="dateFrom">Start date (yyyy-MM-dd). Defaults to 30 days ago if not provided.</param>
+        /// <param name="dateTo"> End date (yyyy-MM-dd). Defaults to today if not provided.</param>
         [HttpGet("scores")]
         public async Task<IActionResult> GetScores([FromQuery] int? teamId = null, [FromQuery] string? dateFrom = null, [FromQuery] string? dateTo = null)
         {
@@ -56,7 +61,7 @@ namespace interview_integrationstask.Controllers
                 // Default dateTo to today if not provided
                 dateTo ??= DateTime.UtcNow.ToString("yyyy-MM-dd");
 
-                // Log the request details
+                
                 _logger.LogInformation($"Retrieving scores for teamId: {teamId ?? 0}, dateFrom: {dateFrom}, dateTo: {dateTo}");
 
                 // Validate that teamId is provided if required

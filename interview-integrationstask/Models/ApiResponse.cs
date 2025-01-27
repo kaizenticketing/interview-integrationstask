@@ -2,20 +2,6 @@ using System.Text.Json.Serialization;
 
 namespace interview_integrationstask.Models 
 {
-    /// <summary>
-    /// Base class for paginated API responses 
-    /// </summary>
-    public record ApiPaginatedResponse<T>
-    {
-        [JsonPropertyName("count")]
-        public int Count { get; init; }
-
-        [JsonPropertyName("filters")]
-        public Dictionary<string, object>? Filters { get; init; }
-
-        [JsonPropertyName("resultSet")]
-        public T ResultSet { get; init; } = default!; 
-    }
 
     /// <summary>
     /// Represents a football team 

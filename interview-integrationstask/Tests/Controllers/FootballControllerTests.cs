@@ -96,7 +96,7 @@ namespace interview_integrationstask.Tests.Controllers
             // Arrange 
             var scores = new MatchesApiResponse 
             {
-                Matches = new List<interview_integrationstask.Models.Match>
+                Matches = new List<Models.Match>
                 {
                     new interview_integrationstask.Models.Match { Id = 101, Status = "FINISHED"}
                 }
