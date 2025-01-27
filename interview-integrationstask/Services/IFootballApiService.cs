@@ -31,5 +31,13 @@ namespace interview_integrationstask.Services
         /// <param name="competitionCode">The competition code (e.g., "PL" for Premier League).</param>
         /// <returns>Detailed competition information, including seasons and teams.</returns>
         Task<Competition> GetCompetitionAsync(string competitionCode);
+
+        /// <summary>
+        /// Retrieves the top scorers for a specific competition (league).
+        /// </summary>
+        /// <param name="competitionCode">The competition code (e.g., "PL" for Premier League).</param>
+        /// <param name="season">Optional: The matchday to filter by (e.g., 23).</param>
+        /// <returns>Information about top scorers in the competition.</returns>
+        Task<TopScorersApiResponse> GetTopScorersAsync(string competitionCode);
     }
 }

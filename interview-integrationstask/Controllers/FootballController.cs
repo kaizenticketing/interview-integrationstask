@@ -123,6 +123,44 @@ namespace interview_integrationstask.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves the top scorers for a specific competition by code. 
+        /// </summary>
+        /// <param name="competitionCode">The competition code (e.g., "PL" for Premier League)</param>
+        /// <returns>A list of the top scorers for the specific competition.</returns>
+        [HttpGet("competitions/{competitionCode}/scorers")]
+        public async Task<IActionResult> GetTopScorers([FromRoute] string competitionCode)
+        {
+            try 
+            {
+                _logger.LogInformation(
+                    "Retrieving top scorers for competition: {CompetitionCode}",
+                    competitionCode);
+
+                // Call the service to get the top scorers 
+                var topScorers = await _footballApiService.GetTopScorersAsync(competitionCode);
+
+                if (topScorers == null || topScorers.Scorers == null || !topScorers.Scorers.Any())
+                {
+                    return NotFound($"No top scorers found for competition '{competitionCode}'.");
+                }
+
+                return Ok(topScorers);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound($"Competition '{competitionCode}' not found." );
+            }
+            catch (RateLimitRejectedException ex)
+            {
+                return StatusCode(StatusCodes.Status429TooManyRequests, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving top scorers for competition {CompetitionCode}", competitionCode);
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving top scorers.");
+            }
+        }
     }
 
 }

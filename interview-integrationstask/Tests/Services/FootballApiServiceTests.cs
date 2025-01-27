@@ -229,5 +229,97 @@ namespace interview_integrationstask.Tests.Services
             // Act & Assert 
             await Assert.ThrowsAsync<UnauthorizedAccessException>(() => service.GetCompetitionAsync("PL"));
         }
+
+        [Fact]
+        public async Task GetTopScorersAsync_ReturnsTopScorers_WhenApiResponseIsValid()
+        {
+            // Arrange 
+            var handlerMock = new Mock<HttpMessageHandler>();
+            handlerMock 
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage 
+                {
+                    StatusCode = HttpStatusCode.OK, 
+                    Content = new StringContent("{\"count\": 1, \"scorers\": [{\"player\": {\"name\": \"Player A\"}, \"goals\": 20}]}")
+                });
+            
+            var service = CreateService(handlerMock.Object);
+
+            // Act 
+            var result = await service.GetTopScorersAsync("PL");
+
+            // Assert 
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Count);
+            Assert.NotEmpty(result.Scorers);
+            Assert.Equal("Player A", result.Scorers.First().Player.Name);
+            Assert.Equal(20, result.Scorers.First().Goals);
+        }
+
+        [Fact]
+        public async Task GetTopScorersAsync_ThrowsKeyNotFoundException_WhenApiReturnsNotFound()
+        {
+            // Arrange 
+            var handlerMock = new Mock<HttpMessageHandler>();
+            handlerMock 
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(), 
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.NotFound 
+                });
+            
+            var service = CreateService(handlerMock.Object);
+
+            // Act & Assert 
+            await Assert.ThrowsAsync<KeyNotFoundException>(() => service.GetTopScorersAsync("INVALID_CODE"));
+        }
+
+        [Fact]
+        public async Task GetTopScorersAsync_ThrowsUnauthorizedAccessException_WhenApiReturnsUnauthorized()
+        {
+            // Arrange 
+            var handlerMock = new Mock<HttpMessageHandler>();
+            handlerMock 
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.Unauthorized
+                });
+            
+            var service = CreateService(handlerMock.Object);
+
+            // Act & Assert 
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => service.GetTopScorersAsync("PL"));
+        }
+
+        [Fact]
+        public async Task GetTopScorersAsync_ThrowsRateLimitRejectedException_WhenRateLimitIsExceeded()
+        {
+            // Arrange 
+            var handlerMock = new Mock<HttpMessageHandler>();
+            handlerMock 
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.TooManyRequests
+                });
+
+            var service = CreateService(handlerMock.Object);
+
+            // Act & Assert 
+            await Assert.ThrowsAsync<RateLimitRejectedException>(() => service.GetTopScorersAsync("PL"));
+        }
     }
 }

@@ -203,4 +203,79 @@ namespace interview_integrationstask.Models
         [JsonPropertyName("stages")]
         public IEnumerable<string> Stages { get; init; } = new List<string>();
     }
+
+    /// <summary>
+    /// Represents the top scorers API response. 
+    /// </summary>
+    public record TopScorersApiResponse 
+    {
+        [JsonPropertyName("count")]
+        public int Count { get; init; }
+
+        [JsonPropertyName("filters")]
+        public Dictionary<string, object>? Filters { get; init; }
+
+        [JsonPropertyName("competition")]
+        public Competition Competition { get; init; } = new Competition();
+
+        [JsonPropertyName("season")]
+        public Season Season { get; init; } = new Season();
+
+        [JsonPropertyName("scorers")]
+        public IEnumerable<Scorer> Scorers { get; init; } = new List<Scorer>();
+    }
+
+    /// <summary>
+    /// Represents a scorer in the top scorers list 
+    /// </summary>
+    public record Scorer 
+    {
+        [JsonPropertyName("player")]
+        public Player Player { get; init; } = new Player();
+        
+        [JsonPropertyName("team")]
+        public Team Team { get; init; } = new Team();
+
+        [JsonPropertyName("goals")]
+        public int Goals { get; init; }
+
+        [JsonPropertyName("assists")]
+        public int? Assists { get; init; }
+
+        [JsonPropertyName("penalties")]
+        public int? Penalties { get; init; }
+    }
+
+    /// <summary>
+    /// Represents a player in the top scorers list.
+    /// </summary>
+    public record Player 
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; init; }
+
+        [JsonPropertyName("name")]
+        public string Name { get; init; } = string.Empty; 
+
+        [JsonPropertyName("firstName")]
+        public string? FirstName { get; init; }
+
+        [JsonPropertyName("lastName")]
+        public string? LastName { get; init; }
+
+        [JsonPropertyName("dateOfBirth")]
+        public DateTime? DateOfBirth { get; init; }
+
+        [JsonPropertyName("countryOfBirth")]
+        public string? CountryOfBirth { get; init; }
+
+        [JsonPropertyName("nationality")]
+        public string? Nationality { get; init; }
+
+        [JsonPropertyName("shirtNumber")]
+        public int? ShirtNumber { get; init; }
+
+        [JsonPropertyName("lastUpdated")]
+        public DateTime? LastUpdated { get; init; }
+    }
 }

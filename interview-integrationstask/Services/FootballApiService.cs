@@ -85,6 +85,14 @@ namespace interview_integrationstask.Services
 
             return await SendRequestAsync<Competition>($"competitions/{competitionCode}");
         }
+
+        /// <inheritdoc />
+        public async Task<TopScorersApiResponse> GetTopScorersAsync(string competitionCode)
+        {
+            _logger.LogInformation("Fetching top scorers for competition: {CompetitionCode}", competitionCode);
+
+            return await SendRequestAsync<TopScorersApiResponse>($"competitions/{competitionCode}/scorers");
+        }
     }
 
     /// <summary>
