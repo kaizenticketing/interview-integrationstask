@@ -217,7 +217,7 @@ namespace interview_integrationstask.Tests.Services
             handlerMock 
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync",
-                    .ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<HttpRequestMessage>(),
                     ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(new HttpResponseMessage 
                 {
