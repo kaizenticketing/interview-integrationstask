@@ -52,24 +52,18 @@ namespace interview_integrationstask.Models
 
         [JsonPropertyName("emblem")]
         public string? EmblemUrl { get; init; }
-    }
 
-    /// <summary>
-    /// Represents a season within a competition
-    /// </summary>
-    public record Season 
-    {
-        [JsonPropertyName("id")]
-        public int Id { get; init; }
+        [JsonPropertyName("area")]
+        public Area? Area { get; init; }
 
-        [JsonPropertyName("startDate")]
-        public DateTime StartDate { get; init; }
+        [JsonPropertyName("currentSeason")]
+        public Season? CurrentSeason { get; init; }
 
-        [JsonPropertyName("endDate")]
-        public DateTime EndDate { get; init; }
+        [JsonPropertyName("seasons")]
+        public IEnumerable<Season>? Seasons { get; init; }
 
-        [JsonPropertyName("currentMatchday")]
-        public int? CurrentMatchday { get; init; }
+        [JsonPropertyName("lastUpdated")]
+        public DateTime? LastUpdated { get; init; }
     }
 
     /// <summary>
@@ -172,5 +166,41 @@ namespace interview_integrationstask.Models
 
         [JsonPropertyName("away")]
         public int Away { get; init; }
+    }
+
+    public record Area 
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; init; }
+
+        [JsonPropertyName("name")]
+        public string Name { get; init; } = string.Empty; 
+
+        [JsonPropertyName("code")]
+        public string? Code { get; init; }
+
+        [JsonPropertyName("flag")]
+        public string? Flag { get; init; }
+    }
+
+    public record Season 
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; init; }
+
+        [JsonPropertyName("startDate")]
+        public DateTime StartDate { get; init; }
+
+        [JsonPropertyName("endDate")]
+        public DateTime EndDate { get; init; }
+
+        [JsonPropertyName("currentMatchDay")]
+        public int? CurrentMatchday { get; init; }
+
+        [JsonPropertyName("winner")]
+        public Team? Winner { get; init; }
+
+        [JsonPropertyName("stages")]
+        public IEnumerable<string> Stages { get; init; } = new List<string>();
     }
 }
